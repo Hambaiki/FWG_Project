@@ -11,6 +11,9 @@ public class WordManager : MonoBehaviour
     public List<GameObject> words;
     public Transform canvas;
 
+    public Transform leftLimit;
+    public Transform rightLimit;
+
     public TextMeshProUGUI status;
     public TextMeshProUGUI playerName;
     
@@ -51,7 +54,10 @@ public class WordManager : MonoBehaviour
         if (gameOver == false && gamePause == false) {
             if (Time.time >= nextWordTime)
             {
-                Vector3 randomOffset = new Vector3(Random.Range(-100f, 100f), 0f);
+                // Dynamic spawn range!
+                float range = (rightLimit.position.x - leftLimit.position.x)/2;
+
+                Vector3 randomOffset = new Vector3(Random.Range(-range, range), 0f);
                 
                 GameObject newObject = Instantiate(prefab, spawnPoint.position + randomOffset, Quaternion.identity, canvas);
                 TextMeshProUGUI word = newObject.GetComponent<TextMeshProUGUI>();
